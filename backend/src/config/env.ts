@@ -23,7 +23,8 @@ export const env = {
   jwtExpiresIn: process.env.JWT_EXPIRES_IN ?? '7d',
 
   stripeSecretKey: requireEnv('STRIPE_SECRET_KEY'),
-  stripeWebhookSecret: requireEnv('STRIPE_WEBHOOK_SECRET'),
+  // Optional on first deploy — set after registering the webhook URL in Stripe Dashboard
+  stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET ?? '',
 
   clientUrl: process.env.CLIENT_URL ?? 'http://localhost:5173',
 

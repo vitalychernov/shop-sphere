@@ -57,15 +57,17 @@ export const StripeService = {
   async handleWebhook(rawBody: Buffer, signature: string) {
     let event: Stripe.Event;
 
-    try {
-      // Verify that the request is genuinely from Stripe using the webhook secret
-      event = stripe.webhooks.constructEvent(
-        rawBody,
-        signature,
-        env.stripeWebhookSecret
-      );
-    } catch {
-      throw new AppError('Invalid webhook signature', 400);
+    if (!env.stripeWebhookSecret) {
+      // Webhook secret not configured — skip signature verification (dev/initial deploy only)
+      console.warn('[Stripe] STRIPE_WEBHOOK_SECRET not set — skipping signature verification');
+      event = JSON.parse(rawBody.toString()) as Stripe.Event;
+    } else {
+      try {
+        // Verify that the request is genuinely from Stripe using the webhook secret
+        event = stripe.webhooks.constructEvent(rawBody, signature, env.stripeWebhookSecret);
+      } catch {
+        throw new AppError('Invalid webhook signature', 400);
+      }
     }
 
     switch (event.type) {
