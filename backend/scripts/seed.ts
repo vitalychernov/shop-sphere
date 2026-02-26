@@ -9,7 +9,7 @@ const products = [
     name: 'Classic White Sneakers',
     description: 'Timeless white sneakers crafted from premium leather. Comfortable for everyday wear with a clean, minimalist silhouette that pairs with anything.',
     price: 89.99,
-    images: ['https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=800&q=80'],
+    images: ['https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=800&q=80'],
     category: 'sneakers',
     stock: 50,
     slug: 'classic-white-sneakers',
