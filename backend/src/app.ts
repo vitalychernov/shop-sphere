@@ -7,6 +7,7 @@ import { AppError } from './utils/AppError';
 import authRouter from './routes/auth.routes';
 import productRouter from './routes/product.routes';
 import orderRouter from './routes/order.routes';
+import stripeRouter from './routes/stripe.routes';
 
 export function createApp() {
   const app = express();
@@ -22,7 +23,15 @@ export function createApp() {
     })
   );
 
-  // Parse incoming JSON request bodies
+  // IMPORTANT: Stripe webhook requires the raw request body (Buffer) to verify
+  // its signature. This route must be registered BEFORE express.json() parses
+  // the body — once parsed, the raw bytes are gone and signature check fails.
+  app.use(
+    '/api/stripe/webhook',
+    express.raw({ type: 'application/json' })
+  );
+
+  // Parse incoming JSON request bodies for all other routes
   app.use(express.json());
 
   // Health check — used by Render and Docker to verify the service is alive
@@ -34,6 +43,7 @@ export function createApp() {
   app.use('/api/auth', authRouter);
   app.use('/api/products', productRouter);
   app.use('/api/orders', orderRouter);
+  app.use('/api/stripe', stripeRouter);
 
   // Handle all unmatched routes — must come after all valid routes
   app.use((_req, _res, next) => {

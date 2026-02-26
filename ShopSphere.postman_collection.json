@@ -232,6 +232,43 @@
           }
         }
       ]
+    },
+    {
+      "name": "Stripe",
+      "item": [
+        {
+          "name": "Create Checkout Session",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.url) {",
+                  "  console.log('Stripe checkout URL:', json.url);",
+                  "  pm.collectionVariables.set('checkoutUrl', json.url);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/stripe/checkout-session",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orderId\": \"PASTE_ORDER_ID_HERE\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "Creates a Stripe Checkout Session for a pending order. Returns { url } to redirect the user."
+          }
+        }
+      ]
     }
   ]
 }
