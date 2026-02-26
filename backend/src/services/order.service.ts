@@ -1,7 +1,9 @@
 import mongoose from 'mongoose';
 import { Order } from '../models/order.model';
 import { Product } from '../models/product.model';
+import { User } from '../models/user.model';
 import { AppError } from '../utils/AppError';
+import { EmailService } from './email.service';
 import type { CreateOrderInput } from '../validators/order.validator';
 
 export const OrderService = {
@@ -48,6 +50,22 @@ export const OrderService = {
       totalAmount: Math.round(totalAmount * 100) / 100, // round to 2 decimal places
       status: 'pending',
     });
+
+    // Send confirmation email — runs in background, never blocks the response
+    const user = await User.findById(userId).lean();
+    if (user) {
+      EmailService.sendOrderConfirmation({
+        to: user.email,
+        userName: user.name,
+        orderId: order._id.toString(),
+        items: orderItems.map((i) => ({
+          name: i.name,
+          quantity: i.quantity,
+          price: i.price,
+        })),
+        totalAmount: order.totalAmount,
+      });
+    }
 
     return order;
   },

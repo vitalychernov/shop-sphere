@@ -9,6 +9,7 @@ import CheckoutPage from './pages/CheckoutPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import OrderSuccessPage from './pages/OrderSuccessPage';
+import AccountPage from './pages/AccountPage';
 
 // Route that redirects to /login if user is not authenticated
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -39,6 +40,14 @@ export default function App() {
         element={
           <ProtectedRoute>
             <OrderSuccessPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/account"
+        element={
+          <ProtectedRoute>
+            <AccountPage />
           </ProtectedRoute>
         }
       />

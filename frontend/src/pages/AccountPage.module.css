@@ -1,0 +1,155 @@
+.title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 1.5rem;
+}
+
+.card {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* ── Profile ─────────────────────────────────────────── */
+
+.profile {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 0.5rem 1rem;
+  margin: 0;
+}
+
+.profile dt {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  align-self: center;
+}
+
+.profile dd {
+  margin: 0;
+  font-weight: 500;
+  align-self: center;
+}
+
+.role {
+  text-transform: capitalize;
+}
+
+/* ── Orders ──────────────────────────────────────────── */
+
+.state {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.stateError {
+  color: #c0392b;
+  font-size: 0.9rem;
+}
+
+.empty {
+  text-align: center;
+  padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  color: var(--color-text-muted);
+}
+
+.orderList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.order {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.orderHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--color-bg);
+  flex-wrap: wrap;
+}
+
+.orderId {
+  font-weight: 700;
+  font-size: 0.875rem;
+  font-family: monospace;
+}
+
+.orderDate {
+  margin-left: auto;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+/* Status badges */
+.badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.2rem 0.6rem;
+  border-radius: 99px;
+}
+
+.badge_pending  { background: #fff3cd; color: #856404; }
+.badge_paid     { background: #d1e7dd; color: #0a3622; }
+.badge_failed   { background: #f8d7da; color: #58151c; }
+.badge_cancelled { background: #e2e3e5; color: #41464b; }
+
+/* Order line items */
+.itemList {
+  list-style: none;
+  padding: 0.75rem 1rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.itemName { flex: 1; }
+.itemQty  { color: var(--color-text-muted); white-space: nowrap; }
+.itemPrice { font-weight: 600; min-width: 60px; text-align: right; }
+
+/* Order footer */
+.orderFooter {
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: flex-end;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.orderTotal strong {
+  color: var(--color-text);
+}

@@ -26,4 +26,13 @@ export const env = {
   stripeWebhookSecret: requireEnv('STRIPE_WEBHOOK_SECRET'),
 
   clientUrl: process.env.CLIENT_URL ?? 'http://localhost:5173',
+
+  // Email is optional — if SMTP_USER is not set, emails are silently skipped
+  smtp: {
+    host: process.env.SMTP_HOST ?? 'smtp.gmail.com',
+    port: parseInt(process.env.SMTP_PORT ?? '465', 10),
+    user: process.env.SMTP_USER ?? '',
+    pass: process.env.SMTP_PASS ?? '',
+    from: process.env.SMTP_FROM ?? 'ShopSphere <noreply@shopsphere.com>',
+  },
 } as const;
