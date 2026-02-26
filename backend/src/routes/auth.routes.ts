@@ -15,4 +15,7 @@ router.get('/me', authenticate, (req, res) => {
   res.json({ user: req.user });
 });
 
+// PUT /api/auth/password — change password (requires valid token)
+router.put('/password', authenticate, AuthController.changePassword);
+
 export default router;

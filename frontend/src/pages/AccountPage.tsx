@@ -1,7 +1,9 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import { useAuth } from '../context/AuthContext';
 import { useMyOrders } from '../hooks/useOrders';
+import { authApi } from '../api/auth.api';
 import styles from './AccountPage.module.css';
 
 const STATUS_LABEL: Record<string, string> = {
@@ -12,15 +14,52 @@ const STATUS_LABEL: Record<string, string> = {
 };
 
 export default function AccountPage() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const { data: orders, isLoading, isError } = useMyOrders();
+  const navigate = useNavigate();
+
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [pwLoading, setPwLoading] = useState(false);
+  const [pwError, setPwError] = useState('');
+  const [pwSuccess, setPwSuccess] = useState('');
+
+  function handleLogout() {
+    logout();
+    navigate('/');
+  }
+
+  async function handleChangePassword(e: React.FormEvent) {
+    e.preventDefault();
+    setPwError('');
+    setPwSuccess('');
+    setPwLoading(true);
+    try {
+      await authApi.changePassword({ currentPassword, newPassword });
+      setPwSuccess('Password updated successfully.');
+      setCurrentPassword('');
+      setNewPassword('');
+    } catch (err: unknown) {
+      const msg =
+        (err as { response?: { data?: { message?: string } } })?.response?.data?.message ??
+        'Failed to update password.';
+      setPwError(msg);
+    } finally {
+      setPwLoading(false);
+    }
+  }
 
   return (
     <Layout>
       <div className="container">
-        <h1 className={styles.title}>My Account</h1>
+        <div className={styles.header}>
+          <h1 className={styles.title}>My Account</h1>
+          <button className="btn btn-outline" onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
 
-        {/* ── User info ─────────────────────────────────────── */}
+        {/* ── Profile ───────────────────────────────────────── */}
         <section className={styles.card}>
           <h2 className={styles.sectionTitle}>Profile</h2>
           <dl className={styles.profile}>
@@ -31,6 +70,41 @@ export default function AccountPage() {
             <dt>Role</dt>
             <dd className={styles.role}>{user?.role}</dd>
           </dl>
+        </section>
+
+        {/* ── Change Password ────────────────────────────────── */}
+        <section className={styles.card}>
+          <h2 className={styles.sectionTitle}>Change Password</h2>
+          <form onSubmit={handleChangePassword} className={styles.pwForm}>
+            <div className={styles.field}>
+              <label className={styles.label}>Current Password</label>
+              <input
+                type="password"
+                className={styles.input}
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+                required
+                autoComplete="current-password"
+              />
+            </div>
+            <div className={styles.field}>
+              <label className={styles.label}>New Password</label>
+              <input
+                type="password"
+                className={styles.input}
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                required
+                minLength={8}
+                autoComplete="new-password"
+              />
+            </div>
+            {pwError && <p className={styles.pwError}>{pwError}</p>}
+            {pwSuccess && <p className={styles.pwSuccess}>{pwSuccess}</p>}
+            <button type="submit" className="btn btn-primary" disabled={pwLoading}>
+              {pwLoading ? 'Saving…' : 'Update Password'}
+            </button>
+          </form>
         </section>
 
         {/* ── Orders ────────────────────────────────────────── */}

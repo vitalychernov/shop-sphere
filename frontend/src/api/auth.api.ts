@@ -7,4 +7,7 @@ export const authApi = {
 
   login: (data: { email: string; password: string }) =>
     api.post<AuthResponse>('/auth/login', data).then((r) => r.data),
+
+  changePassword: (data: { currentPassword: string; newPassword: string }) =>
+    api.put<{ message: string }>('/auth/password', data).then((r) => r.data),
 };

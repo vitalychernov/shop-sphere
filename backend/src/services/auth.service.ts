@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import { User } from '../models/user.model';
 import { signToken } from '../utils/jwt';
 import { AppError } from '../utils/AppError';
-import type { RegisterInput, LoginInput } from '../validators/auth.validator';
+import type { RegisterInput, LoginInput, ChangePasswordInput } from '../validators/auth.validator';
 
 const SALT_ROUNDS = 12;
 
@@ -61,5 +61,20 @@ export const AuthService = {
         role: user.role,
       },
     };
+  },
+
+  async changePassword(userId: string, input: ChangePasswordInput) {
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new AppError('User not found', 404);
+    }
+
+    const isValid = await bcrypt.compare(input.currentPassword, user.passwordHash);
+    if (!isValid) {
+      throw new AppError('Current password is incorrect', 400);
+    }
+
+    user.passwordHash = await bcrypt.hash(input.newPassword, SALT_ROUNDS);
+    await user.save();
   },
 };

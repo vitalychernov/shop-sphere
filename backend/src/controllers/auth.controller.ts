@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { AuthService } from '../services/auth.service';
-import { registerSchema, loginSchema } from '../validators/auth.validator';
+import { registerSchema, loginSchema, changePasswordSchema } from '../validators/auth.validator';
 import { asyncHandler } from '../utils/asyncHandler';
 import { AppError } from '../utils/AppError';
 
@@ -26,5 +26,16 @@ export const AuthController = {
     const data = await AuthService.login(result.data);
 
     res.status(200).json(data);
+  }),
+
+  changePassword: asyncHandler(async (req: Request, res: Response) => {
+    const result = changePasswordSchema.safeParse(req.body);
+    if (!result.success) {
+      throw new AppError(result.error.errors[0].message, 400);
+    }
+
+    await AuthService.changePassword(req.user!.userId, result.data);
+
+    res.status(200).json({ message: 'Password updated successfully' });
   }),
 };
