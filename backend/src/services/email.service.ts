@@ -1,18 +1,5 @@
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 import { env } from '../config/env';
-
-// Create transporter lazily — only when SMTP credentials are configured
-function createTransporter() {
-  return nodemailer.createTransport({
-    host: env.smtp.host,
-    port: env.smtp.port,
-    secure: env.smtp.port === 465, // true for 465 (SSL), false for 587 (TLS)
-    auth: {
-      user: env.smtp.user,
-      pass: env.smtp.pass,
-    },
-  });
-}
 
 interface OrderEmailData {
   to: string;
@@ -24,11 +11,13 @@ interface OrderEmailData {
 
 export const EmailService = {
   async sendOrderConfirmation(data: OrderEmailData): Promise<void> {
-    // Skip silently if SMTP is not configured — email is optional
-    if (!env.smtp.user || !env.smtp.pass) {
-      console.log('[Email] SMTP not configured — skipping order confirmation email');
+    // Skip silently if Resend API key is not configured — email is optional
+    if (!env.resendApiKey) {
+      console.log('[Email] RESEND_API_KEY not configured — skipping order confirmation email');
       return;
     }
+
+    const resend = new Resend(env.resendApiKey);
 
     const itemsHtml = data.items
       .map(
@@ -48,7 +37,7 @@ export const EmailService = {
         </div>
 
         <div style="background:#fff;padding:32px;border:1px solid #dee2e6;border-top:none">
-          <h2 style="color:#1a1a2e;margin-top:0">Order Confirmed! 🎉</h2>
+          <h2 style="color:#1a1a2e;margin-top:0">Order Confirmed!</h2>
           <p>Hi <strong>${data.userName}</strong>,</p>
           <p>Thank you for your order. We've received your payment and are processing your items.</p>
 
@@ -86,14 +75,18 @@ export const EmailService = {
     `;
 
     try {
-      const transporter = createTransporter();
-      await transporter.sendMail({
-        from: env.smtp.from,
+      const { error } = await resend.emails.send({
+        from: 'ShopSphere <onboarding@resend.dev>',
         to: data.to,
         subject: `Order Confirmed — ShopSphere #${data.orderId.slice(-8).toUpperCase()}`,
         html,
       });
-      console.log(`[Email] Order confirmation sent to ${data.to}`);
+
+      if (error) {
+        console.error('[Email] Failed to send order confirmation:', error);
+      } else {
+        console.log(`[Email] Order confirmation sent to ${data.to}`);
+      }
     } catch (error) {
       // Log but don't throw — a failed email should not break the order creation
       console.error('[Email] Failed to send order confirmation:', error);
