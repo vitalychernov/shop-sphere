@@ -2,6 +2,8 @@ import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import { env } from './config/env';
+import { errorHandler } from './middleware/errorHandler';
+import { AppError } from './utils/AppError';
 
 export function createApp() {
   const app = express();
@@ -24,6 +26,19 @@ export function createApp() {
   app.get('/health', (_req, res) => {
     res.json({ status: 'ok', environment: env.nodeEnv });
   });
+
+  // API routes will be mounted here in future steps
+  // app.use('/api/auth', authRouter);
+  // app.use('/api/products', productRouter);
+  // app.use('/api/orders', orderRouter);
+
+  // Handle all unmatched routes — must come after all valid routes
+  app.use((_req, _res, next) => {
+    next(new AppError('Route not found', 404));
+  });
+
+  // Central error handler — must be registered last, after all routes
+  app.use(errorHandler);
 
   return app;
 }
