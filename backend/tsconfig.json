@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    // Target modern Node.js — ES2022 gives us top-level await, etc.
+    "target": "ES2022",
+
+    // Use CommonJS modules — Node.js default, Jest works best with it
+    "module": "commonjs",
+
+    // Enable all strict type checks — catches bugs at compile time
+    "strict": true,
+
+    // Allow importing JSON files directly (useful for configs)
+    "resolveJsonModule": true,
+
+    // Allow default imports from modules without default export
+    "esModuleInterop": true,
+
+    // Skip type checking of .d.ts files in node_modules — speeds up compilation
+    "skipLibCheck": true,
+
+    // Source TypeScript lives in src/
+    "rootDir": "src",
+
+    // Compiled JavaScript goes to dist/
+    "outDir": "dist",
+
+    // Generate source maps for debugging compiled JS
+    "sourceMap": true,
+
+    // Ensure each file can be independently transpiled (required by some tools)
+    "isolatedModules": true,
+
+    // Use Node.js module resolution algorithm
+    "moduleResolution": "node"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "tests"]
+}

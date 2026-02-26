@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    // Tests live outside src/, so we expand rootDir to project root
+    "rootDir": "."
+  },
+  "include": ["src/**/*", "tests/**/*"]
+}
