@@ -5,6 +5,7 @@ import { env } from './config/env';
 import { errorHandler } from './middleware/errorHandler';
 import { AppError } from './utils/AppError';
 import authRouter from './routes/auth.routes';
+import productRouter from './routes/product.routes';
 
 export function createApp() {
   const app = express();
@@ -30,8 +31,8 @@ export function createApp() {
 
   // API routes
   app.use('/api/auth', authRouter);
-  // app.use('/api/products', productRouter);  — coming next
-  // app.use('/api/orders', orderRouter);      — coming later
+  app.use('/api/products', productRouter);
+  // app.use('/api/orders', orderRouter);  — coming later
 
   // Handle all unmatched routes — must come after all valid routes
   app.use((_req, _res, next) => {

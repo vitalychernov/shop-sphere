@@ -125,6 +125,69 @@
           }
         }
       ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "Get All Products",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/products",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "products"],
+              "query": [
+                { "key": "page", "value": "1", "disabled": true },
+                { "key": "limit", "value": "12", "disabled": true },
+                { "key": "category", "value": "sneakers", "disabled": true },
+                { "key": "search", "value": "leather", "disabled": true },
+                { "key": "minPrice", "value": "50", "disabled": true },
+                { "key": "maxPrice", "value": "200", "disabled": true },
+                { "key": "sort", "value": "price_asc", "disabled": true }
+              ]
+            },
+            "description": "Get paginated product list. Enable query params to filter."
+          }
+        },
+        {
+          "name": "Get Product by Slug",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/products/classic-white-sneakers",
+            "description": "Get a single product by its slug."
+          }
+        },
+        {
+          "name": "Get Products — Filter by Category",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/products?category=sneakers&sort=price_asc",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "products"],
+              "query": [
+                { "key": "category", "value": "sneakers" },
+                { "key": "sort", "value": "price_asc" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Products — Search",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/products?search=leather",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "products"],
+              "query": [
+                { "key": "search", "value": "leather" }
+              ]
+            }
+          }
+        }
+      ]
     }
   ]
 }
