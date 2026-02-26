@@ -4,6 +4,7 @@ import cors from 'cors';
 import { env } from './config/env';
 import { errorHandler } from './middleware/errorHandler';
 import { AppError } from './utils/AppError';
+import authRouter from './routes/auth.routes';
 
 export function createApp() {
   const app = express();
@@ -27,10 +28,10 @@ export function createApp() {
     res.json({ status: 'ok', environment: env.nodeEnv });
   });
 
-  // API routes will be mounted here in future steps
-  // app.use('/api/auth', authRouter);
-  // app.use('/api/products', productRouter);
-  // app.use('/api/orders', orderRouter);
+  // API routes
+  app.use('/api/auth', authRouter);
+  // app.use('/api/products', productRouter);  — coming next
+  // app.use('/api/orders', orderRouter);      — coming later
 
   // Handle all unmatched routes — must come after all valid routes
   app.use((_req, _res, next) => {
