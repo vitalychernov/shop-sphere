@@ -1,6 +1,5 @@
-import type { Config } from 'jest';
-
-const config: Config = {
+/** @type {import('jest').Config} */
+const config = {
   // Use ts-jest to transpile TypeScript test files
   preset: 'ts-jest',
 
@@ -29,4 +28,4 @@ const config: Config = {
   verbose: true,
 };
 
-export default config;
+module.exports = config;
