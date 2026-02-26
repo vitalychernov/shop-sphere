@@ -1,0 +1,98 @@
+.title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--color-primary);
+}
+
+.toolbar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.searchForm {
+  display: flex;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: 200px;
+}
+
+.searchInput {
+  flex: 1;
+  padding: 0.6rem 0.875rem;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.searchInput:focus {
+  border-color: var(--color-accent);
+}
+
+.sort {
+  padding: 0.6rem 0.875rem;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  background: var(--color-surface);
+  cursor: pointer;
+}
+
+.categories {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.categoryBtn {
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--color-border);
+  background: var(--color-surface);
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.15s;
+  cursor: pointer;
+}
+
+.categoryBtn:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.categoryBtn.active {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #fff;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.state {
+  text-align: center;
+  color: var(--color-text-muted);
+  padding: 3rem 0;
+  font-size: 1rem;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2.5rem;
+}
+
+.pageInfo {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
