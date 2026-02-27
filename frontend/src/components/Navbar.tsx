@@ -31,7 +31,7 @@ export default function Navbar() {
           {isAuthenticated ? (
             <>
               <Link to="/account" className={styles.username}>{user?.name}</Link>
-              <button className="btn btn-outline" onClick={handleLogout}>
+              <button className="btn btn-primary" onClick={handleLogout}>
                 Logout
               </button>
             </>

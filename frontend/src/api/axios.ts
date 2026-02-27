@@ -22,11 +22,13 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Intercept 401 responses — clear token and redirect to login
+// Intercept 401 responses — only redirect if user had an active session (token expired).
+// Do NOT redirect on 401 from login/register endpoints — that's just a wrong password.
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    const hadToken = !!localStorage.getItem('token');
+    if (error.response?.status === 401 && hadToken) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       window.location.href = '/login';
