@@ -79,12 +79,6 @@ CLIENT_URL=http://localhost:5173
 RESEND_API_KEY=re_...        # optional — emails are skipped if not set
 ```
 
-Create `frontend/.env.local`:
-
-```env
-VITE_API_URL=                # leave empty to use Vite proxy in development
-```
-
 ### Seed the Database
 
 ```bash
@@ -92,7 +86,7 @@ cd backend
 npm run seed
 ```
 
-This creates 4 demo products in the database.
+This creates 10 demo products across 5 categories (sneakers, bags, accessories, clothing, electronics).
 
 ### Run Locally
 
@@ -102,14 +96,6 @@ cd backend && npm run dev
 
 # Terminal 2 — frontend (http://localhost:5173)
 cd frontend && npm run dev
-```
-
-### Stripe Webhook (local)
-
-To test Stripe payments locally, use the [Stripe CLI](https://stripe.com/docs/stripe-cli):
-
-```bash
-stripe listen --forward-to http://localhost:5000/api/stripe/webhook
 ```
 
 Use Stripe test card `4242 4242 4242 4242` with any future expiry and any CVC.
@@ -169,19 +155,21 @@ shop-sphere/
 |--------|------|------|-------------|
 | POST | `/api/auth/register` | — | Register new user |
 | POST | `/api/auth/login` | — | Login, returns JWT |
+| GET | `/api/auth/me` | JWT | Get current user info |
 | PUT | `/api/auth/password` | JWT | Change password |
-| GET | `/api/products` | — | List all products |
+| GET | `/api/products` | — | List products (pagination, filters, search) |
 | GET | `/api/products/:slug` | — | Get product by slug |
 | POST | `/api/orders` | JWT | Create order |
 | GET | `/api/orders/my` | JWT | Get my orders |
-| POST | `/api/stripe/checkout` | JWT | Create Stripe payment intent |
+| GET | `/api/orders/:id` | JWT | Get order by ID |
+| POST | `/api/stripe/checkout-session` | JWT | Create Stripe Checkout Session |
 | POST | `/api/stripe/webhook` | Stripe | Handle payment events |
 
 ---
 
 ## Deployment
 
-The app is deployed with zero-downtime automatic deploys on every push to `main`.
+The app is deployed with automatic deploys on every push to `main`.
 
 - **Render** (backend): connect GitHub repo → set environment variables → deploy
 - **Vercel** (frontend): connect GitHub repo → set `VITE_API_URL` to the Render URL → deploy
