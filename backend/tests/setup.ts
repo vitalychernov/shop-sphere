@@ -16,3 +16,6 @@ process.env.STRIPE_SECRET_KEY = 'sk_test_fake_key_for_testing';
 process.env.STRIPE_WEBHOOK_SECRET = 'whsec_fake_secret_for_testing';
 
 process.env.CLIENT_URL = 'http://localhost:5173';
+
+// Disable email sending in tests — prevents dotenv from loading the real key
+process.env.RESEND_API_KEY = '';
