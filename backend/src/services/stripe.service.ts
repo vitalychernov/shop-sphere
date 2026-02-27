@@ -1,5 +1,6 @@
 import Stripe from 'stripe';
 import { Order } from '../models/order.model';
+import { Product } from '../models/product.model';
 import { AppError } from '../utils/AppError';
 import { env } from '../config/env';
 
@@ -76,7 +77,22 @@ export const StripeService = {
         const orderId = session.metadata?.orderId;
 
         if (orderId) {
-          await Order.findByIdAndUpdate(orderId, { status: 'paid' });
+          const order = await Order.findByIdAndUpdate(
+            orderId,
+            { status: 'paid' },
+            { new: true }
+          );
+
+          // Decrement stock for each purchased item
+          if (order) {
+            await Promise.all(
+              order.items.map((item) =>
+                Product.findByIdAndUpdate(item.product, {
+                  $inc: { stock: -item.quantity },
+                })
+              )
+            );
+          }
         }
         break;
       }
