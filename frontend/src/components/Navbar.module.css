@@ -74,3 +74,23 @@
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
 }
+
+@media (max-width: 540px) {
+  .brand {
+    font-size: 1.1rem;
+  }
+
+  .actions {
+    gap: 0.4rem;
+  }
+
+  .cartLink {
+    padding: 0.4rem 0.5rem;
+  }
+
+  /* Reduce btn padding inside navbar on small screens */
+  .actions :global(.btn) {
+    padding: 0.4rem 0.7rem;
+    font-size: 0.82rem;
+  }
+}
