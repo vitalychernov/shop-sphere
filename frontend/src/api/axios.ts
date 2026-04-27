@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // In development Vite proxies /api → http://localhost:5000 (vite.config.ts)
-// In production VITE_API_URL points to the deployed Render backend
+// In production VITE_API_URL points to the deployed backend
 const baseURL = import.meta.env.VITE_API_URL
   ? `${import.meta.env.VITE_API_URL}/api`
   : '/api';

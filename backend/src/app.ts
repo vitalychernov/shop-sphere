@@ -34,7 +34,7 @@ export function createApp() {
   // Parse incoming JSON request bodies for all other routes
   app.use(express.json());
 
-  // Health check — used by Render and Docker to verify the service is alive
+  // Health check — used by uptime monitoring
   app.get('/health', (_req, res) => {
     res.json({ status: 'ok', environment: env.nodeEnv });
   });

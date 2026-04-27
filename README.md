@@ -35,7 +35,7 @@ A full-stack e-commerce web application built as a portfolio project. Features a
 - CSS Modules
 
 **Infrastructure**
-- Backend: [Render](https://render.com)
+- Backend: VPS (Ubuntu) + Nginx + PM2
 - Frontend: [Vercel](https://vercel.com)
 - Database: [MongoDB Atlas](https://cloud.mongodb.com)
 
@@ -171,6 +171,6 @@ shop-sphere/
 
 The app is deployed with automatic deploys on every push to `main`.
 
-- **Render** (backend): connect GitHub repo → set environment variables → deploy
-- **Vercel** (frontend): connect GitHub repo → set `VITE_API_URL` to the Render URL → deploy
-- **MongoDB Atlas**: free M0 cluster, whitelist `0.0.0.0/0` for Render compatibility
+- **VPS** (backend): GitHub Actions deploys on every push to `main` via SSH → `npm run build` → `pm2 restart`
+- **Vercel** (frontend): connect GitHub repo → set `VITE_API_URL` to the backend URL → deploy
+- **MongoDB Atlas**: free M0 cluster
