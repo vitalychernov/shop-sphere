@@ -25,7 +25,7 @@ describe('AuthService', () => {
 
   describe('register', () => {
     it('should create a user and return a token', async () => {
-      (User.findOne as jest.Mock).mockResolvedValue(null); // no existing user
+      (User.findOne as jest.Mock).mockResolvedValue(null);
       (bcrypt.hash as jest.Mock).mockResolvedValue('hashed_password');
       (User.create as jest.Mock).mockResolvedValue(mockUser);
 
@@ -46,7 +46,7 @@ describe('AuthService', () => {
     });
 
     it('should throw 409 if email is already taken', async () => {
-      (User.findOne as jest.Mock).mockResolvedValue(mockUser); // user exists
+      (User.findOne as jest.Mock).mockResolvedValue(mockUser);
 
       await expect(
         AuthService.register({
@@ -84,7 +84,7 @@ describe('AuthService', () => {
 
     it('should throw 401 for wrong password', async () => {
       (User.findOne as jest.Mock).mockResolvedValue(mockUser);
-      (bcrypt.compare as jest.Mock).mockResolvedValue(false); // wrong password
+      (bcrypt.compare as jest.Mock).mockResolvedValue(false);
 
       await expect(
         AuthService.login({

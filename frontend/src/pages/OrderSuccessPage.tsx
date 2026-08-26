@@ -9,7 +9,6 @@ export default function OrderSuccessPage() {
   const { clearCart } = useCart();
   const sessionId = searchParams.get('session_id');
 
-  // Clear the cart once the user lands on the success page
   useEffect(() => {
     clearCart();
   }, [clearCart]);

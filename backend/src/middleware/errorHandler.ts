@@ -11,7 +11,6 @@ export function errorHandler(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _next: NextFunction
 ): void {
-  // Handle known operational errors (AppError instances)
   if (err instanceof AppError) {
     res.status(err.statusCode).json({
       status: 'error',
@@ -20,7 +19,6 @@ export function errorHandler(
     return;
   }
 
-  // Handle Mongoose validation errors
   if (err.name === 'ValidationError') {
     res.status(400).json({
       status: 'error',
@@ -29,7 +27,6 @@ export function errorHandler(
     return;
   }
 
-  // Handle Mongoose duplicate key error (e.g. duplicate email)
   if ((err as NodeJS.ErrnoException).code === '11000') {
     res.status(409).json({
       status: 'error',
@@ -38,7 +35,6 @@ export function errorHandler(
     return;
   }
 
-  // Handle JWT errors
   if (err.name === 'JsonWebTokenError') {
     res.status(401).json({
       status: 'error',

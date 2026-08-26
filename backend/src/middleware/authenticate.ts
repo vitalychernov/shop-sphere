@@ -11,8 +11,6 @@ declare global {
   }
 }
 
-// Middleware that protects routes by requiring a valid Bearer token.
-// Attach it to any router or individual route that requires authentication.
 export function authenticate(req: Request, _res: Response, next: NextFunction): void {
   const authHeader = req.headers.authorization;
 

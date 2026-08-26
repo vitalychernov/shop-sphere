@@ -20,7 +20,6 @@ export default function AccountPage() {
       <div className="container">
         <h1 className={styles.title}>My Account</h1>
 
-        {/* ── Profile ───────────────────────────────────────── */}
         <section className={styles.card}>
           <h2 className={styles.sectionTitle}>Profile</h2>
           <dl className={styles.profile}>
@@ -33,7 +32,6 @@ export default function AccountPage() {
           </dl>
         </section>
 
-        {/* ── Orders ────────────────────────────────────────── */}
         <section className={styles.card}>
           <h2 className={styles.sectionTitle}>Order History</h2>
 

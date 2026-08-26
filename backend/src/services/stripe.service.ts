@@ -14,7 +14,6 @@ export const StripeService = {
       throw new AppError('Order not found', 404);
     }
 
-    // Ensure the user owns this order
     if (order.user.toString() !== userId) {
       throw new AppError('Access denied', 403);
     }
@@ -23,8 +22,7 @@ export const StripeService = {
       throw new AppError('Order is already processed', 400);
     }
 
-    // Build Stripe line items from order items
-    // Stripe requires amounts in cents (integer) — multiply by 100
+    // Stripe requires amounts in cents (integer)
     const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = order.items.map(
       (item) => ({
         price_data: {
@@ -32,7 +30,6 @@ export const StripeService = {
           product_data: {
             name: item.name,
           },
-          // Convert dollars to cents and ensure integer
           unit_amount: Math.round(item.price * 100),
         },
         quantity: item.quantity,
@@ -64,7 +61,6 @@ export const StripeService = {
       event = JSON.parse(rawBody.toString()) as Stripe.Event;
     } else {
       try {
-        // Verify that the request is genuinely from Stripe using the webhook secret
         event = stripe.webhooks.constructEvent(rawBody, signature, env.stripeWebhookSecret);
       } catch {
         throw new AppError('Invalid webhook signature', 400);
@@ -83,7 +79,6 @@ export const StripeService = {
             { new: true }
           );
 
-          // Decrement stock for each purchased item
           if (order) {
             await Promise.all(
               order.items.map((item) =>
@@ -107,7 +102,6 @@ export const StripeService = {
         break;
       }
 
-      // Ignore all other event types
       default:
         break;
     }

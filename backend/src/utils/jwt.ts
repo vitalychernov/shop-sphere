@@ -6,15 +6,13 @@ export interface TokenPayload {
   role: string;
 }
 
-// Signs a JWT with userId and role — expires based on JWT_EXPIRES_IN env var
 export function signToken(payload: TokenPayload): string {
   return jwt.sign(payload, env.jwtSecret, {
     expiresIn: env.jwtExpiresIn as jwt.SignOptions['expiresIn'],
   });
 }
 
-// Verifies and decodes a JWT — throws JsonWebTokenError or TokenExpiredError on failure
-// Both error types are already handled by our central errorHandler
+// Throws JsonWebTokenError or TokenExpiredError on failure — both are handled by the central errorHandler
 export function verifyToken(token: string): TokenPayload {
   return jwt.verify(token, env.jwtSecret) as TokenPayload;
 }

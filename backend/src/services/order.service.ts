@@ -13,7 +13,6 @@ export const OrderService = {
     // Fetch all products in a single query
     const products = await Product.find({ _id: { $in: productIds } });
 
-    // Verify all requested products exist
     if (products.length !== productIds.length) {
       throw new AppError('One or more products not found', 404);
     }
@@ -32,7 +31,7 @@ export const OrderService = {
 
       return {
         product: new mongoose.Types.ObjectId(item.productId),
-        name: product.name,      // price and name snapshot at order time
+        name: product.name,
         price: product.price,
         quantity: item.quantity,
       };
@@ -47,7 +46,7 @@ export const OrderService = {
     const order = await Order.create({
       user: new mongoose.Types.ObjectId(userId),
       items: orderItems,
-      totalAmount: Math.round(totalAmount * 100) / 100, // round to 2 decimal places
+      totalAmount: Math.round(totalAmount * 100) / 100,
       status: 'pending',
     });
 
@@ -86,7 +85,6 @@ export const OrderService = {
       throw new AppError('Order not found', 404);
     }
 
-    // Ensure users can only access their own orders
     if (order.user.toString() !== userId) {
       throw new AppError('Access denied', 403);
     }

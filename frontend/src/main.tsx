@@ -7,11 +7,10 @@ import { CartProvider } from './context/CartContext';
 import App from './App';
 import './index.css';
 
-// React Query client — handles caching, refetching, loading states
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 5, // 5 minutes — don't refetch if data is fresh
+      staleTime: 1000 * 60 * 5,
       retry: 1,
     },
   },

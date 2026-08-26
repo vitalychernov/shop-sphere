@@ -7,7 +7,6 @@ export const ProductService = {
   async getAll(query: ProductQuery) {
     const { page, limit, category, search, minPrice, maxPrice, sort } = query;
 
-    // Build filter dynamically — only add conditions that were provided
     const filter: FilterQuery<ProductType> = {};
 
     if (category) {
@@ -25,7 +24,6 @@ export const ProductService = {
       if (maxPrice !== undefined) filter.price.$lte = maxPrice;
     }
 
-    // Map sort option to MongoDB sort object
     const sortMap: Record<ProductQuery['sort'], Record<string, 1 | -1>> = {
       price_asc: { price: 1 },
       price_desc: { price: -1 },

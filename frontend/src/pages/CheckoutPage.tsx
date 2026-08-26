@@ -21,18 +21,14 @@ export default function CheckoutPage() {
     setLoading(true);
 
     try {
-      // Step 1: Create order in our DB
       const orderItems = items.map((i) => ({
         productId: i.product._id,
         quantity: i.quantity,
       }));
 
       const order = await ordersApi.create(orderItems);
-
-      // Step 2: Create Stripe Checkout Session
       const { url } = await ordersApi.createCheckoutSession(order._id);
 
-      // Step 3: Redirect to Stripe hosted payment page
       if (url) {
         window.location.href = url;
       }
@@ -50,7 +46,6 @@ export default function CheckoutPage() {
         <h1 className={styles.title}>Checkout</h1>
 
         <div className={styles.layout}>
-          {/* Order summary */}
           <div className={styles.summary}>
             <h2 className={styles.sectionTitle}>Order Summary</h2>
 
@@ -87,7 +82,6 @@ export default function CheckoutPage() {
             </div>
           </div>
 
-          {/* Payment */}
           <div className={styles.payment}>
             <h2 className={styles.sectionTitle}>Payment</h2>
             <p className={styles.stripeNote}>

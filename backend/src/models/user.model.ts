@@ -11,7 +11,7 @@ const userSchema = new Schema(
     email: {
       type: String,
       required: [true, 'Email is required'],
-      unique: true, // creates a unique index in MongoDB
+      unique: true,
       lowercase: true,
       trim: true,
     },
@@ -26,7 +26,6 @@ const userSchema = new Schema(
     },
   },
   {
-    // Automatically adds createdAt and updatedAt fields
     timestamps: true,
   }
 );

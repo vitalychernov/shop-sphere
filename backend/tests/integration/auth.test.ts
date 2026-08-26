@@ -46,7 +46,7 @@ describe('Auth Endpoints (Integration)', () => {
     it('should return 400 if required fields are missing', async () => {
       const res = await request(app)
         .post('/api/auth/register')
-        .send({ email: 'alice@example.com' }); // missing name and password
+        .send({ email: 'alice@example.com' });
 
       expect(res.status).toBe(400);
     });
@@ -64,7 +64,6 @@ describe('Auth Endpoints (Integration)', () => {
 
   describe('POST /api/auth/login', () => {
     beforeEach(async () => {
-      // Register a user to log in with
       await request(app)
         .post('/api/auth/register')
         .send({ name: 'Alice', email: 'alice@example.com', password: 'password123' });

@@ -6,7 +6,6 @@ import { AppError } from '../utils/AppError';
 
 export const AuthController = {
   register: asyncHandler(async (req: Request, res: Response) => {
-    // Validate request body — throws ZodError with details if invalid
     const result = registerSchema.safeParse(req.body);
     if (!result.success) {
       throw new AppError(result.error.errors[0].message, 400);

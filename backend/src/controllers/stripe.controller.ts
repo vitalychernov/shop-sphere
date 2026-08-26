@@ -19,7 +19,6 @@ export const StripeController = {
     res.json(result);
   }),
 
-  // Webhook handler — body is raw Buffer (express.raw middleware is applied in app.ts)
   webhook: asyncHandler(async (req: Request, res: Response) => {
     const signature = req.headers['stripe-signature'];
 
@@ -27,7 +26,7 @@ export const StripeController = {
       throw new AppError('Missing stripe-signature header', 400);
     }
 
-    // req.body is a Buffer here because of express.raw() middleware
+    // req.body is a Buffer here because of express.raw() middleware applied in app.ts
     const result = await StripeService.handleWebhook(req.body as Buffer, signature);
 
     res.json(result);

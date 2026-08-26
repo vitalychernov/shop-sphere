@@ -12,10 +12,8 @@ import stripeRouter from './routes/stripe.routes';
 export function createApp() {
   const app = express();
 
-  // Set security-related HTTP headers (XSS, clickjacking, etc.)
   app.use(helmet());
 
-  // Allow requests from the frontend origin
   app.use(
     cors({
       origin: env.clientUrl,
@@ -31,15 +29,12 @@ export function createApp() {
     express.raw({ type: 'application/json' })
   );
 
-  // Parse incoming JSON request bodies for all other routes
   app.use(express.json());
 
-  // Health check — used by uptime monitoring
   app.get('/health', (_req, res) => {
     res.json({ status: 'ok', environment: env.nodeEnv });
   });
 
-  // API routes
   app.use('/api/auth', authRouter);
   app.use('/api/products', productRouter);
   app.use('/api/orders', orderRouter);

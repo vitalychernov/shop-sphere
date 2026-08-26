@@ -6,7 +6,6 @@ import { AppError } from '../utils/AppError';
 
 export const ProductController = {
   getAll: asyncHandler(async (req: Request, res: Response) => {
-    // Validate and coerce query params (strings → numbers, defaults applied)
     const result = productQuerySchema.safeParse(req.query);
     if (!result.success) {
       throw new AppError(result.error.errors[0].message, 400);

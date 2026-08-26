@@ -1,6 +1,5 @@
 import dotenv from 'dotenv';
 
-// Load .env file into process.env before anything else reads it
 dotenv.config();
 
 // Helper that throws immediately if a required env variable is missing.

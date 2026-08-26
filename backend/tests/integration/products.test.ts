@@ -46,7 +46,6 @@ describe('Products Endpoints (Integration)', () => {
       const res = await request(app).get('/api/products');
 
       expect(res.status).toBe(200);
-      // API returns { products, pagination }
       expect(res.body.products).toEqual([]);
       expect(res.body.pagination.total).toBe(0);
     });

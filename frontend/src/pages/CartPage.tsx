@@ -28,7 +28,6 @@ export default function CartPage() {
         <h1 className={styles.title}>Cart ({totalItems} items)</h1>
 
         <div className={styles.layout}>
-          {/* Items list */}
           <div className={styles.items}>
             {items.map(({ product, quantity }) => (
               <div key={product._id} className={styles.item}>
@@ -68,7 +67,6 @@ export default function CartPage() {
             ))}
           </div>
 
-          {/* Order summary */}
           <div className={styles.summary}>
             <h2 className={styles.summaryTitle}>Order Summary</h2>
 

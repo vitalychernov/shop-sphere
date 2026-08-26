@@ -5,7 +5,6 @@ import { connectTestDB, clearTestDB, closeTestDB } from '../helpers/db';
 
 const app = createApp();
 
-// Test product data
 const testProduct = {
   name: 'Test Sneakers',
   description: 'A pair of test sneakers',
@@ -20,23 +19,19 @@ describe('Order Flow (Integration)', () => {
   let token: string;
   let productId: string;
 
-  // Start in-memory MongoDB once before all tests in this file
   beforeAll(async () => {
     await connectTestDB();
   });
 
-  // Clean DB between test cases
   afterEach(async () => {
     await clearTestDB();
   });
 
-  // Tear down after all tests
   afterAll(async () => {
     await closeTestDB();
   });
 
   beforeEach(async () => {
-    // Register a fresh user before each test
     const registerRes = await request(app)
       .post('/api/auth/register')
       .send({ name: 'Test User', email: 'test@example.com', password: 'password123' });
@@ -73,13 +68,11 @@ describe('Order Flow (Integration)', () => {
   });
 
   it('should return the order in my orders list', async () => {
-    // Create an order first
     await request(app)
       .post('/api/orders')
       .set('Authorization', `Bearer ${token}`)
       .send({ items: [{ productId, quantity: 1 }] });
 
-    // Fetch order history
     const res = await request(app)
       .get('/api/orders/my')
       .set('Authorization', `Bearer ${token}`);

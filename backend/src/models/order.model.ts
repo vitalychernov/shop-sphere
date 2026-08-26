@@ -7,16 +7,16 @@ const orderItemSchema = new Schema(
   {
     product: {
       type: Schema.Types.ObjectId,
-      ref: 'Product', // enables .populate('items.product') to get full product data
+      ref: 'Product',
       required: true,
     },
     name: {
       type: String,
-      required: true, // snapshot of product name at order time
+      required: true,
     },
     price: {
       type: Number,
-      required: true, // snapshot of product price at order time
+      required: true,
     },
     quantity: {
       type: Number,
@@ -24,7 +24,7 @@ const orderItemSchema = new Schema(
       min: [1, 'Quantity must be at least 1'],
     },
   },
-  { _id: false } // no separate _id for each item sub-document
+  { _id: false }
 );
 
 const orderSchema = new Schema(
